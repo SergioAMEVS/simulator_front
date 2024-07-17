@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  node:
+    image: registry.breweryda.com/cisco-lifecycle-front:latest
+    deploy:
+      placement:
+        constraints:
+          - "node.labels.work-type==projects"
+          # - "node.hostname==ip-10-1-0-5"
+      replicas: 1
+      resources:
+        limits:
+          cpus: "4"
+          memory: "4g"
+
+      labels:
+        # Trafik config
+        traefik.enable: "true"
+        ## Services
+        traefik.http.services.lifecycle_frontend.loadbalancer.server.port: 4173
+        ## middleware
+        traefik.http.middlewares.lifecycle_frontend_redirect.redirectscheme.scheme: https
+        ## HTTPS router
+        traefik.http.routers.lifecycle_frontend.rule: Host(`staging.breweryda.com`) && PathPrefix(`/ciscolifecycle`)
+        traefik.http.routers.lifecycle_frontend.entryPoints: websecure
+        traefik.http.routers.lifecycle_frontend.tls.certResolver: default
+        traefik.http.routers.lifecycle_frontend.service: lifecycle_frontend
+        ## HTTP router
+        traefik.http.routers.lifecycle_frontend_web.rule: Host(`staging.breweryda.com`) && PathPrefix(`/ciscolifecycle`)
+        traefik.http.routers.lifecycle_frontend_web.entryPoints: web
+        traefik.http.routers.lifecycle_frontend_web.service: lifecycle_frontend
+        traefik.http.routers.lifecycle_frontend_web.middlewares: lifecycle_frontend_redirect
+    # ports:
+    #   - 4173:5173
+    environment:
+      - VITE_BASE_URL=${VITE_BASE_URL}
+      - VITE_BASE_URL2=${VITE_BASE_URL2}
+      - BASE_URL=${BASE_URL}
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_SAML_ENTRY_POINT=${VITE_SAML_ENTRY_POINT}
+    #   - PORT=5173
+    #   - NODE_ENV=dev
+
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true
+    name: public_frontend

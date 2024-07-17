@@ -1,0 +1,50 @@
+{"filters":[
+    {
+      "id": 1,
+      "Name": "Country",
+      "order": 1,
+      "icon": "country",
+      "category": "Profile",
+      "active": true,
+      "selection": "group",
+      "filterValues": [
+        { "id": 1, "label": "US", "group": "America", "value": "1", "order": 1 },
+        { "id": 2, "label": "UK", "group": "Europe", "value": "2", "order": 2 },
+        { "id": 3, "label": "Germany", "group": "Europe", "value": "3", "order": 3 },
+        { "id": 4, "label": "Singapore", "group": "Asia", "value": "4", "order": 4 }
+      ]
+    },
+    {
+      "id": 2,
+      "Name": "Industry",
+      "order": 2,
+      "icon": "industry",
+      "category": "Profile",
+      "active": true,
+      "selection": "multiple",
+      "filterValues": [
+        { "id": 5, "label": "Financial Services", "group": null, "value": "1", "order": 1 },
+        { "id": 6, "label": "Service Provider", "group": null, "value": "2", "order": 2 },
+        { "id": 7, "label": "Manufacturing", "group": null, "value": "3", "order": 3 },
+        { "id": 8, "label": "Public Sector", "group": null, "value": "4", "order": 4 }
+      ]
+    },
+    {
+      "id": 6,
+      "Name": "Outcomes",
+      "order": 6,
+      "icon": "outcomes",
+      "category": "Profile",
+      "active": true,
+      "selection": "list",
+      "filterValues": [
+        { "id": 24, "label": "Reduce Risk", "group": null, "value": "1", "order": 1 },
+        { "id": 25, "label": "Reduce Cost", "group": null, "value": "2", "order": 2 },
+        { "id": 26, "label": "Enhance Security", "group": null, "value": "3", "order": 3 },
+        { "id": 27, "label": "Demonstrate Complience", "group": null, "value": "4", "order": 4 },
+        { "id": 28, "label": "Optimeze Productivity", "group": null, "value": "5", "order": 5 }
+      ]
+    }
+  ]}
+
+  

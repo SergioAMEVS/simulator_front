@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo '🏗️👷 Styling your project before committing 👷🏗️'
+echo 'please be patient, this may take a while...'
+npm run lint:fix  ||
+(
+    echo '🔨❌ Wait a moment, you have a problem in your code. Check linter 🔨❌
+          Run npm run lint:fix, add changes and try commit again.';
+    false;
+)
+
+echo '🎉 No error found: committing this now.... ✨🚀🍻'
+
+exec >/dev/tty 2>&1
+
+npx lint-staged

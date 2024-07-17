@@ -1,0 +1,46 @@
+stages:
+  - build
+  - deploy
+
+docker-build:
+  stage: build
+  environment: production
+  script:
+    - echo "building docker image"
+    - docker build --build-arg VITE_BASE_URL=$VITE_BASE_URL --build-arg VITE_BASE_URL2=$VITE_BASE_URL2  --build-arg VITE_API_URL=$VITE_API_URL --build-arg VITE_SAML_ENTRY_POINT=$VITE_SAML_ENTRY_POINT -t registry.breweryda.com/cisco-lifecycle-front:latest .
+  only:
+    refs:
+      - main
+    variables:
+      - $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+
+registry-push:
+  stage: build
+  needs: [docker-build]
+  environment: production
+  script:
+    - echo "pushing docker image to registry"
+    - docker push registry.breweryda.com/cisco-lifecycle-front:latest
+  only:
+    refs:
+      - main
+    variables:
+      - $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+
+
+swarm-deploy:
+  stage: deploy
+  environment: production
+  needs: [registry-push]
+  script:
+    - echo "deploying service"
+    - echo $VITE_BASE_URL
+    - docker stack rm cisco-lifecycle-front
+    - docker stack deploy -c docker-compose.yml --with-registry-auth cisco-lifecycle-front
+    # - docker service inspect cisco-lifecycle-front_node
+    - docker service logs cisco-lifecycle-front_node
+  only:
+    refs:
+      - main
+    variables:
+      - $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"

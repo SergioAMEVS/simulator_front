@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Lato';
+  src: local('Lato'), url(../fonts/Lato-Regular.ttf) format('opentype');
+}
+*{
+  font-family: lato;
+}
+body {
+  line-height: 1.5;
+  margin: 0 -4px;
+  padding: 0;
+}
