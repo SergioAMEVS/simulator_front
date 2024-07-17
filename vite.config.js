@@ -7,6 +7,9 @@ export default ({ mode }) => {
   // Object.assign(process.env, loadEnv(mode, process.cwd()))
 
   return defineConfig({
+    build: {
+      outDir: 'dist'
+    },
     base: process.env.VITE_BASE_URL,
     // server: {
     //   mimeTypes: {
